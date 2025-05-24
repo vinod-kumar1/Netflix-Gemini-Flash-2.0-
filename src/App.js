@@ -1,6 +1,3 @@
-import LoginPage from "./Components/LoginPage";
-function App() {
+export default function App() {
   return <div className="App">App</div>;
 }
-
-export default App;

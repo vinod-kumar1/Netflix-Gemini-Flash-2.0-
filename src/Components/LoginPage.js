@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { validateRegex } from "../utils/validate";
 import { useNavigate } from "react-router";
+import { signUp } from "../utils/validate";
 
 export default function LoginPage() {
   let formData = useRef(null);
@@ -28,6 +29,13 @@ export default function LoginPage() {
       if (checkValid == true) navigate("/browse");
       else setError({ isTrue: true, message: checkValid });
     } else {
+      let userData = {};
+      Array.from(formData.current.elements).forEach(
+        (ele) => (userData[ele.name] = ele.value)
+      );
+      let response = signUp(userData);
+      if (response.status == true) navigate("browse");
+      else setError({ isTrue: true, message: response.message });
     }
   }
 
@@ -46,6 +54,7 @@ export default function LoginPage() {
         </h4>
         <input
           type="text"
+          value={"IronManFAn3000"}
           name="username"
           placeholder="Enter your name"
           className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
@@ -60,12 +69,14 @@ export default function LoginPage() {
         <input
           name="password"
           type="password"
+          value={"Test@1234566789"}
           placeholder="password"
           className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
         />
         {!signIn && (
           <input
             name="confirmPassword"
+            value={"Test@1234566789"}
             type="password"
             placeholder="Confirm password"
             className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { validateRegex } from "../utils/validate";
+import { signInuser } from "../utils/validate";
 import { useNavigate } from "react-router";
 import { signUp } from "../utils/validate";
 
@@ -24,18 +24,21 @@ export default function LoginPage() {
         if (ele.name == "email") email = ele.value;
         if (ele.name == "password") password = ele.value;
       });
-      let checkValid = validateRegex(email, password);
-      console.log("message", checkValid);
-      if (checkValid == true) navigate("/browse");
-      else setError({ isTrue: true, message: checkValid });
+
+      signInuser(email, password).then((res) => {
+        if (res.status == true) navigate("/browse");
+        else setError({ isTrue: true, message: res.message });
+      });
     } else {
       let userData = {};
       Array.from(formData.current.elements).forEach(
         (ele) => (userData[ele.name] = ele.value)
       );
-      let response = signUp(userData);
-      if (response.status == true) navigate("browse");
-      else setError({ isTrue: true, message: response.message });
+      signUp(userData).then((res) => {
+        console.log("res", res);
+        if (res.status == true) navigate("browse");
+        else setError({ isTrue: true, message: res.message });
+      });
     }
   }
 
@@ -52,13 +55,15 @@ export default function LoginPage() {
         <h4 className="text-2xl -translate-y-10">
           {signIn ? "Sign in" : "Sign Up"}
         </h4>
-        <input
-          type="text"
-          value={"IronManFAn3000"}
-          name="username"
-          placeholder="Enter your name"
-          className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
-        />
+        {!signIn && (
+          <input
+            type="text"
+            value={"IronManFAn3000"}
+            name="username"
+            placeholder="Enter your name"
+            className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
+          />
+        )}
         <input
           type="email"
           placeholder="email"
@@ -73,6 +78,7 @@ export default function LoginPage() {
           placeholder="password"
           className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
         />
+
         {!signIn && (
           <input
             name="confirmPassword"

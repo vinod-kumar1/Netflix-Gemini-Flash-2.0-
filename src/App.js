@@ -1,30 +1,40 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { auth, signOutUser } from "./utils/validate";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { Link } from "react-router";
-import { auth } from "./utils/validate";
+import { removeUser } from "./utils/userDetails";
 
 export default function App() {
-  let storeToken = useSelector((state) => state.user.accessToken);
-  let dupl = useSelector((state) => state);
-  console.log("dupl", dupl);
+  let dispatch = useDispatch();
   let navigate = useNavigate();
 
   useEffect(() => {
-    //   let user = localStorage.getItem("accessToken");
-    //   console.log("user", user);
-    //   console.log("user token", auth.currentUser.accessToken);
-    //   console.log(user == auth.currentUser.accessToken);
-    //   // if (user == storeToken) navigate("browse");
-    //   // else navigate("/");
-    // console.log(auth.currentUser?.accessToken);
-    if (auth?.currentUser?.accessToken == null) navigate("/");
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate("/");
+        dispatch(removeUser());
+      }
+    });
   }, []);
+
+  function logOut() {
+    signOutUser()
+      .then(() => {
+        console.log("User SignedOut");
+      })
+      .catch(console.log);
+  }
 
   return (
     <div className="App">
       <h2>App</h2>
-      <Link to="/">Logout</Link>
+      <button
+        onClick={logOut}
+        className="bg-red-800 text-white px-2 py1 rounded-sm cursor-pointer"
+      >
+        Logout
+      </button>
     </div>
   );
 }

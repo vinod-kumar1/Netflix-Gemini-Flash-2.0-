@@ -10,7 +10,10 @@ let userDetails = createSlice({
     addUser: (state, action) => {
       return { accessToken: action.payload.token };
     },
+    removeUser: (state, action) => {
+      return null;
+    },
   },
 });
-export let { addUser } = userDetails.actions;
+export let { addUser, removeUser } = userDetails.actions;
 export default userDetails.reducer;

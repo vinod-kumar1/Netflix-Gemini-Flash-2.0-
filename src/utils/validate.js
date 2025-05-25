@@ -2,6 +2,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebaseAuth";
@@ -26,38 +27,27 @@ export function signInuser(email, password) {
     isValidEmail.test(email) &&
     isValidPassword.test(password) &&
     signInWithEmailAndPassword(auth, email, password)
-      .then((userDetails) => {
-        return { status: true, message: "Signed-in successfully" };
-      })
-      .catch((err) => ({ status: false, message: err.message }))
+      .then(() => true)
+      .catch((err) => err)
   );
 }
 
 export async function signUp({ username, email, password, confirmPassword }) {
   //   console.log(email, password);
-  if (!isValidEmail.test(email))
-    return { status: false, message: "Invalid email" };
+  if (!isValidEmail.test(email)) return "Invalid email";
   if (!isValidPassword.test(password))
-    return { status: false, message: "Invalid Password. Please try again" };
+    return "Invalid Password. Please try again";
   if (password !== confirmPassword)
-    return {
-      status: false,
-      message: "Password and Confirm password are not same",
-    };
+    return "Password and Confirm password are not same";
 
   return createUserWithEmailAndPassword(auth, email, password)
-    .then((res) => {
-      return {
-        status: true,
-        message: `${username} is signed up succesfully!`,
-        token: res.user.accessToken,
-      };
-    })
-    .catch((error) => {
-      console.log(error.message);
-      return { status: false, message: error.message };
-    });
+    .then(() => "User created Succesfully")
+    .catch((error) => error);
 }
 
-export function signOutUser() {}
+export function signOutUser() {
+  return signOut(auth)
+    .then(() => true)
+    .catch((err) => err);
+}
 export { auth };

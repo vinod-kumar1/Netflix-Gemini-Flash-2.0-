@@ -4,8 +4,9 @@ import { signInuser } from "../utils/validate";
 import { useNavigate } from "react-router";
 import { signUp } from "../utils/validate";
 import { useDispatch } from "react-redux";
-import { addUser } from "../utils/userDetails";
-import { useSelector } from "react-redux";
+import { addUser, removeUser } from "../utils/userDetails";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/validate";
 
 export default function LoginPage() {
   let formData = useRef(null);
@@ -18,6 +19,27 @@ export default function LoginPage() {
     if (signIn) navigate("/");
   }, [signIn]);
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // signup or signin
+        setError({ isTrue: false, message: "" });
+        dispatch(
+          addUser({
+            email: user.email,
+            uid: user.uid,
+            accessToken: user.accessToken,
+          })
+        );
+        navigate("browse");
+      } else {
+        // signout
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+  }, []);
+
   function validateForm(e) {
     e.preventDefault();
     if (signIn) {
@@ -29,24 +51,15 @@ export default function LoginPage() {
         if (ele.name == "password") password = ele.value;
       });
 
-      signInuser(email, password).then((res) => {
-        if (res.status == true) {
-          setError({ isTrue: false, message: "" });
-          navigate("browse");
-        } else setError({ isTrue: true, message: res.message });
-      });
+      signInuser(email, password)
+        .then(() => console.log("Logged In"))
+        .catch(console.log);
     } else {
       let userData = {};
       Array.from(formData.current.elements).forEach(
         (ele) => (userData[ele.name] = ele.value)
       );
-      signUp(userData).then((res) => {
-        if (res.status == true) {
-          localStorage.setItem("accessToken", res.token);
-          dispatch(addUser({ token: res.token, type: "add user" }));
-          navigate("browse");
-        } else setError({ isTrue: true, message: res.message });
-      });
+      signUp(userData).then(console.log).catch(console.log);
     }
   }
 
@@ -75,7 +88,7 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="email"
-          value={"vinu22149@gmail.com"}
+          value={`vinu22149@gmail.com`}
           name="email"
           className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
         />

@@ -3,16 +3,29 @@ import { Link } from "react-router";
 import { signInuser } from "../utils/validate";
 import { useNavigate } from "react-router";
 import { signUp } from "../utils/validate";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userDetails";
+import { useSelector } from "react-redux";
 
 export default function LoginPage() {
   let formData = useRef(null);
   let navigate = useNavigate();
   let [error, setError] = useState({ isTrue: false, message: "" });
   let [signIn, setSignIn] = useState(true);
+  let dispatch = useDispatch();
+  let storeToken = useSelector((state) => state.user.accessToken);
 
   useEffect(() => {
     if (signIn) navigate("/");
   }, [signIn]);
+
+  useEffect(() => {
+    let user = localStorage.getItem("accessToken");
+    if (user == storeToken) navigate("browse");
+    else navigate("/");
+
+    return () => navigate("/");
+  }, []);
 
   function validateForm(e) {
     e.preventDefault();
@@ -26,6 +39,7 @@ export default function LoginPage() {
       });
 
       signInuser(email, password).then((res) => {
+        console.log(res);
         if (res.status == true) navigate("/browse");
         else setError({ isTrue: true, message: res.message });
       });
@@ -35,9 +49,11 @@ export default function LoginPage() {
         (ele) => (userData[ele.name] = ele.value)
       );
       signUp(userData).then((res) => {
-        console.log("res", res);
-        if (res.status == true) navigate("browse");
-        else setError({ isTrue: true, message: res.message });
+        if (res.status == true) {
+          navigate("browse");
+          localStorage.setItem("accessToken", res.token);
+          dispatch(addUser({ token: res.token, type: "add user" }));
+        } else setError({ isTrue: true, message: res.message });
       });
     }
   }

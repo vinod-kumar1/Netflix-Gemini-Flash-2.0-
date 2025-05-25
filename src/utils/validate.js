@@ -14,7 +14,6 @@ let isValidPassword =
 const auth = getAuth();
 
 export function signInuser(email, password) {
-  console.log(email, password);
   if (!isValidEmail.test(email))
     return { status: false, message: "Invalid email. " };
   if (!isValidPassword.test(password))
@@ -27,7 +26,10 @@ export function signInuser(email, password) {
     isValidEmail.test(email) &&
     isValidPassword.test(password) &&
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => ({ status: true, message: "Signed-in successfully" }))
+      .then((userDetails) => {
+        console.log(userDetails);
+        return { status: true, message: "Signed-in successfully" };
+      })
       .catch((err) => ({ status: false, message: err.message }))
   );
 }
@@ -44,12 +46,12 @@ export async function signUp({ username, email, password, confirmPassword }) {
       message: "Password and Confirm password are not same",
     };
 
-  //   const auth = getAuth();
   return createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((res) => {
       return {
         status: true,
         message: `${username} is signed up succesfully!`,
+        token: res.user.accessToken,
       };
     })
     .catch((error) => {
@@ -57,3 +59,5 @@ export async function signUp({ username, email, password, confirmPassword }) {
       return { status: false, message: error.message };
     });
 }
+
+export function signOutUser() {}

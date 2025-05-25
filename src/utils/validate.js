@@ -27,7 +27,6 @@ export function signInuser(email, password) {
     isValidPassword.test(password) &&
     signInWithEmailAndPassword(auth, email, password)
       .then((userDetails) => {
-        console.log(userDetails);
         return { status: true, message: "Signed-in successfully" };
       })
       .catch((err) => ({ status: false, message: err.message }))
@@ -35,7 +34,7 @@ export function signInuser(email, password) {
 }
 
 export async function signUp({ username, email, password, confirmPassword }) {
-  console.log(email, password);
+  //   console.log(email, password);
   if (!isValidEmail.test(email))
     return { status: false, message: "Invalid email" };
   if (!isValidPassword.test(password))
@@ -61,3 +60,4 @@ export async function signUp({ username, email, password, confirmPassword }) {
 }
 
 export function signOutUser() {}
+export { auth };

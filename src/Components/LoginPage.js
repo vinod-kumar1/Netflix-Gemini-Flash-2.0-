@@ -13,19 +13,10 @@ export default function LoginPage() {
   let [error, setError] = useState({ isTrue: false, message: "" });
   let [signIn, setSignIn] = useState(true);
   let dispatch = useDispatch();
-  let storeToken = useSelector((state) => state.user.accessToken);
 
   useEffect(() => {
     if (signIn) navigate("/");
   }, [signIn]);
-
-  useEffect(() => {
-    let user = localStorage.getItem("accessToken");
-    if (user == storeToken) navigate("browse");
-    else navigate("/");
-
-    return () => navigate("/");
-  }, []);
 
   function validateForm(e) {
     e.preventDefault();
@@ -39,9 +30,10 @@ export default function LoginPage() {
       });
 
       signInuser(email, password).then((res) => {
-        console.log(res);
-        if (res.status == true) navigate("/browse");
-        else setError({ isTrue: true, message: res.message });
+        if (res.status == true) {
+          setError({ isTrue: false, message: "" });
+          navigate("browse");
+        } else setError({ isTrue: true, message: res.message });
       });
     } else {
       let userData = {};
@@ -50,9 +42,9 @@ export default function LoginPage() {
       );
       signUp(userData).then((res) => {
         if (res.status == true) {
-          navigate("browse");
           localStorage.setItem("accessToken", res.token);
           dispatch(addUser({ token: res.token, type: "add user" }));
+          navigate("browse");
         } else setError({ isTrue: true, message: res.message });
       });
     }

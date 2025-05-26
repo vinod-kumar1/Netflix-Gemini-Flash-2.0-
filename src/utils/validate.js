@@ -27,8 +27,6 @@ export function signInuser(email, password) {
     isValidEmail.test(email) &&
     isValidPassword.test(password) &&
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => true)
-      .catch((err) => err)
   );
 }
 

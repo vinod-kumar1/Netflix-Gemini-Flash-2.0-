@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { signUp } from "../utils/validate";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userDetails";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../utils/validate";
 
 export default function LoginPage() {
@@ -14,6 +14,7 @@ export default function LoginPage() {
   let [error, setError] = useState({ isTrue: false, message: "" });
   let [signIn, setSignIn] = useState(true);
   let dispatch = useDispatch();
+  let [click, setClick] = useState(false);
 
   useEffect(() => {
     if (signIn) navigate("/");
@@ -31,7 +32,7 @@ export default function LoginPage() {
             accessToken: user.accessToken,
           })
         );
-        navigate("browse");
+        navigate("/browse");
       } else {
         // signout
         dispatch(removeUser());
@@ -41,6 +42,7 @@ export default function LoginPage() {
   }, []);
 
   function validateForm(e) {
+    setClick((p) => !p);
     e.preventDefault();
     if (signIn) {
       let email = "";
@@ -53,13 +55,33 @@ export default function LoginPage() {
 
       signInuser(email, password)
         .then(() => console.log("Logged In"))
-        .catch(console.log);
+        .catch((err) => {
+          setError({ isTrue: true, message: err.message });
+          setClick(false);
+          console.log(err.message);
+        });
     } else {
       let userData = {};
       Array.from(formData.current.elements).forEach(
         (ele) => (userData[ele.name] = ele.value)
       );
-      signUp(userData).then(console.log).catch(console.log);
+      signUp(userData)
+        .then((res) => {
+          console.log(res);
+          updateProfile(auth.currentUser, {
+            displayName: userData.name,
+            photoURL: "https://avatars.githubusercontent.com/u/101015037?v=4",
+          })
+            .then(() => {
+              console.log("Profile Update");
+            })
+            .catch(console.log);
+        })
+        .catch((err) => {
+          setError({ isTrue: true, message: err.message });
+          setClick(false);
+          console.log(err);
+        });
     }
   }
 
@@ -74,12 +96,12 @@ export default function LoginPage() {
         className="z-1 text-white flex-col bg-black/80 p-4 py-20 h-max relative top-40 w-[600px] items-center flex gap-4 -translate-x-20"
       >
         <h4 className="text-2xl -translate-y-10">
-          {signIn ? "Sign in" : "Sign Up"}
+          {(click && (signIn ? "Signing in..." : "Signing Up...")) ||
+            (signIn ? "Sign in" : "Sign Up")}
         </h4>
         {!signIn && (
           <input
             type="text"
-            value={"IronManFAn3000"}
             name="username"
             placeholder="Enter your name"
             className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
@@ -88,14 +110,12 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="email"
-          value={`vinu22149@gmail.com`}
           name="email"
           className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
         />
         <input
           name="password"
           type="password"
-          value={"Test@1234566789"}
           placeholder="password"
           className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
         />
@@ -103,7 +123,6 @@ export default function LoginPage() {
         {!signIn && (
           <input
             name="confirmPassword"
-            value={"Test@1234566789"}
             type="password"
             placeholder="Confirm password"
             className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
@@ -118,7 +137,10 @@ export default function LoginPage() {
         <Link
           to="?signup"
           className="underline"
-          onClick={() => setSignIn((p) => !p)}
+          onClick={() => {
+            setSignIn((p) => !p);
+            setError({ isTrue: false, message: "" });
+          }}
         >
           {signIn ? "Sign Up" : "Sign In"}
         </Link>

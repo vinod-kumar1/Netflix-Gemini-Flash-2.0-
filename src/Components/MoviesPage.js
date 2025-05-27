@@ -44,17 +44,21 @@ export default function MoviesPage() {
       .then((json) => {
         let randomMovie = Math.ceil(Math.random() * json.results.length - 2);
         maxMoviePages.current = json.total_pages;
-        setMovies(json.results);
+        setMovies((p) => [...json.results]);
         findAndSetMainMovie(json.results[randomMovie], setMainMovie);
       })
       .catch((err) => console.error(err));
   }, [movieListType]);
 
+  useEffect(() => {
+    console.log(movies);
+  }, [movies]);
+
   return (
     <div>
       <div className="movie-lists">
         <details className="*:bg-red *:hover:underline *:hover:text-white *:hover:cursor-pointer bg-red-500 w-[100%] py-2 z-20 px-2 ease-in-out">
-          <summary>Top Rated</summary>
+          <summary>{movieListType.split("_").join(" ").toUpperCase()}</summary>
           <option
             onClick={() => setMovieListType("top_rated")}
             value="top_rated"
@@ -88,7 +92,7 @@ export default function MoviesPage() {
               ></iframe>
             )}
           </div>
-          <MovieCategories movies={movies} />
+          {movies.length > 0 && <MovieCategories movies={movies} />}
         </div>
       </div>
     </div>

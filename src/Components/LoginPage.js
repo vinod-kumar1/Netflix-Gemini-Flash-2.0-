@@ -67,7 +67,6 @@ export default function LoginPage() {
       );
       signUp(userData)
         .then((res) => {
-          console.log(res);
           updateProfile(auth.currentUser, {
             displayName: userData.name,
             photoURL: "https://avatars.githubusercontent.com/u/101015037?v=4",
@@ -78,8 +77,8 @@ export default function LoginPage() {
             .catch(console.log);
         })
         .catch((err) => {
-          setError({ isTrue: true, message: err.message });
-          setClick(false);
+          setClick((p) => false);
+          setError((p) => ({ isTrue: true, message: err.message }));
           console.log(err);
         });
     }

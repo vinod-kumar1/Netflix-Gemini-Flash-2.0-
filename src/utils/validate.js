@@ -30,17 +30,14 @@ export function signInuser(email, password) {
   );
 }
 
-export async function signUp({ username, email, password, confirmPassword }) {
-  //   console.log(email, password);
+export async function signUp({ email, password, username, confirmPassword }) {
   if (!isValidEmail.test(email)) return "Invalid email";
   if (!isValidPassword.test(password))
     return "Invalid Password. Please try again";
   if (password !== confirmPassword)
     return "Password and Confirm password are not same";
 
-  return createUserWithEmailAndPassword(auth, email, password)
-    .then(() => "User created Succesfully")
-    .catch((error) => error);
+  return createUserWithEmailAndPassword(auth, email, password);
 }
 
 export function signOutUser() {

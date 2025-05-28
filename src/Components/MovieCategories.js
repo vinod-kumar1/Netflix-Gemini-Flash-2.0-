@@ -51,20 +51,20 @@ export default function MovieCategories() {
 
   useEffect(() => {
     if (popUpMovie.current) {
-      window.scroll({ top: 10, behavior: "smooth" });
+      window.scroll({ top: 80, behavior: "smooth" });
     }
   }, [popupModel]);
 
   return (
     <div className="transition-all duration-500">
       {popupModel.key && (
-        <div className="absolute z-99 top-20">
+        <div className="absolute top-20">
           <dialog open ref={model}>
             <iframe
               ref={popUpMovie}
               allowFullScreen={true}
-              className="top-10 w-screen relative h-[600px]"
-              src={`https://www.youtube.com/embed/${popupModel.key}?autoplay=0&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&mute=1&color=red&loop=1&playlist=${popupModel.key}`}
+              className="w-screen relative h-screen z-999"
+              src={`https://www.youtube.com/embed/${popupModel.key}?autoplay=1&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&mute=1&color=red&loop=1&playlist=${popupModel.key}`}
             ></iframe>
             <button
               onClick={() => {

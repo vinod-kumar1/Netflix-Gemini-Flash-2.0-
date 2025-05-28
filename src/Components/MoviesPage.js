@@ -61,44 +61,46 @@ export default function MoviesPage() {
   return (
     <div>
       <div className="movie-lists">
-        <details
-          ref={details}
-          className="*:bg-red *:hover:underline *:hover:text-white *:hover:cursor-pointer bg-red-500 w-[100%] py-2 z-20 px-2 ease-in-out"
-        >
-          <summary>{movieListType.split("_").join(" ").toUpperCase()}</summary>
-          <option
-            onClick={() => setMovieListType("top_rated")}
-            value="top_rated"
-          >
-            Top Rated
-          </option>
-          <option value="popular" onClick={() => setMovieListType("popular")}>
-            Popular
-          </option>
-          <option
-            value="Now Trending"
-            onClick={() => setMovieListType("now_playing")}
-          >
-            Now Trending
-          </option>
-          <option
-            value="Up Coming"
-            onClick={() => setMovieListType("upcoming")}
-          >
-            Up Coming
-          </option>
-        </details>
-
         <div className="">
           <div className="main-movie">
             {mainMovie?.id && (
               <iframe
                 allowFullScreen={true}
                 className="top-10 w-screen relative -translate-y-10 h-[600px]"
-                src={`https://www.youtube.com/embed/${mainMovie.key}?autoplay=0&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${mainMovie.key}&controls=0&mute=1`}
+                src={`https://www.youtube.com/embed/${mainMovie.key}?autoplay=0&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${mainMovie.key}&controls=1&mute=1`}
               ></iframe>
             )}
           </div>
+          <details
+            ref={details}
+            className="*:bg-red *:hover:underline *:hover:text-white *:hover:cursor-pointer bg-red-500 w-[100%] py-2 z-20 px-2 ease-in-out"
+          >
+            <summary>
+              {movieListType.split("_").join(" ").toUpperCase()}
+            </summary>
+            <option
+              onClick={() => setMovieListType("top_rated")}
+              value="top_rated"
+            >
+              Top Rated
+            </option>
+            <option value="popular" onClick={() => setMovieListType("popular")}>
+              Popular
+            </option>
+            <option
+              value="Now Trending"
+              onClick={() => setMovieListType("now_playing")}
+            >
+              Now Trending
+            </option>
+            <option
+              value="Up Coming"
+              onClick={() => setMovieListType("upcoming")}
+            >
+              Up Coming
+            </option>
+          </details>
+
           <MovieCategories />
         </div>
       </div>

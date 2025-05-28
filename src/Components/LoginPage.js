@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { signInuser } from "../utils/validate";
 import { useNavigate } from "react-router";
 import { signUp } from "../utils/validate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userDetails";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../utils/validate";
@@ -25,13 +25,12 @@ export default function LoginPage() {
       if (user) {
         // signup or signin
         setError({ isTrue: false, message: "" });
-        dispatch(
-          addUser({
-            email: user.email,
-            uid: user.uid,
-            accessToken: user.accessToken,
-          })
-        );
+        let userData = {};
+        Array.from(formData.current.elements).forEach((ele) => {
+          if (ele.name == "email" || ele.name == "photo")
+            if (ele.value) userData[ele.name] = ele.value;
+        });
+        dispatch(addUser(userData));
         navigate("/browse");
       } else {
         // signout
@@ -68,8 +67,8 @@ export default function LoginPage() {
       signUp(userData)
         .then((res) => {
           updateProfile(auth.currentUser, {
-            displayName: userData.name,
-            photoURL: "https://avatars.githubusercontent.com/u/101015037?v=4",
+            name: userData.name,
+            photoURL: userData.photo,
           })
             .then(() => {
               console.log("Profile Update");
@@ -118,7 +117,14 @@ export default function LoginPage() {
           placeholder="password"
           className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
         />
-
+        {!signIn && (
+          <input
+            type="text"
+            name="photo"
+            placeholder="Your photo link"
+            className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
+          />
+        )}
         {!signIn && (
           <input
             name="confirmPassword"

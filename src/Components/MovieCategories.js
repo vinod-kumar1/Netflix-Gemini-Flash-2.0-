@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { tmdbKeys } from "../tmdb";
 import { findAndSetMainMovie } from "./MoviesPage";
+import { addMovies, addPage } from "../utils/moviesPagination";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function MovieCategoryList({ name, moviesList, setPopUpModel }) {
+  let dispatch = useDispatch();
+  let page = useSelector((state) => state.moviesPagn.page);
+  console.log("page", page);
   return (
     <div className="w-[80%] z-99 bg-red-500 px-4 h-[40%] py-4">
       <h3>{name} </h3>
@@ -17,7 +23,12 @@ function MovieCategoryList({ name, moviesList, setPopUpModel }) {
             />
           );
         })}
-        <button className=" px-4 text-2xl hover:bg-gray-200 hover:rounded-r-2xl ">
+        <button
+          onClick={() => {
+            dispatch(addPage());
+          }}
+          className=" px-4 text-2xl hover:bg-gray-200 hover:rounded-r-2xl "
+        >
           {">"}
         </button>
       </div>
@@ -25,14 +36,16 @@ function MovieCategoryList({ name, moviesList, setPopUpModel }) {
   );
 }
 
-export default function MovieCategories({ movies, type }) {
+export default function MovieCategories() {
   let [categories, setCategories] = useState({ morePopular: [], popular: [] });
   let [popupModel, setPopUpModel] = useState({});
   let model = useRef();
   let popUpMovie = useRef();
+  let movies = useSelector((state) => state.moviesPagn.movies);
+  console.log("movie", movies);
 
   useEffect(() => {
-    console.log(movies);
+    // console.log(movies);
     let popularityLessThan20 = movies.filter((movie) => movie.popularity <= 20);
     let popularityMorethan20 = movies.filter((movie) => movie.popularity > 20);
     setCategories({
@@ -41,7 +54,8 @@ export default function MovieCategories({ movies, type }) {
     });
 
     return () => setCategories({});
-  }, []);
+  }, [movies]);
+
   useEffect(() => {
     if (popUpMovie.current) {
       window.scroll({ top: 10, behavior: "smooth" });
@@ -76,12 +90,10 @@ export default function MovieCategories({ movies, type }) {
       <div className="gap-2 *:rounded-4xl flex flex-col items-center mt-4">
         <MovieCategoryList
           setPopUpModel={setPopUpModel}
-          type={type}
           name={"Popular Movies"}
           moviesList={categories.morePopular}
         />
         <MovieCategoryList
-          type={type}
           setPopUpModel={setPopUpModel}
           name={"Silver Movies"}
           moviesList={categories.popular}

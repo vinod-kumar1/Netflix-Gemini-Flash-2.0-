@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { tmdbKeys } from "../tmdb";
 import MovieCategories from "./MovieCategories";
+import { useSelector } from "react-redux";
+import { addPage, addMovies } from "../utils/moviesPagination";
+import { useDispatch } from "react-redux";
+
 const options = {
   method: "GET",
   headers: {
@@ -25,12 +29,12 @@ function findAndSetMainMovie(movie, setMainMovie) {
 
 export default function MoviesPage() {
   let [movieListType, setMovieListType] = useState("top_rated");
-  let [movies, setMovies] = useState([]);
-  let maxMoviePages = useRef(0);
   let [mainMovie, setMainMovie] = useState({});
+  let page = useSelector((state) => state.moviesPagn.page);
 
+  let dispatch = useDispatch();
   useEffect(() => {
-    const url = `https://api.themoviedb.org/3/movie/${movieListType}?language=en-US&page=1`;
+    const url = `https://api.themoviedb.org/3/movie/${movieListType}?language=en-US&page=${page}`;
     const options = {
       method: "GET",
       headers: {
@@ -43,16 +47,11 @@ export default function MoviesPage() {
       .then((res) => res.json())
       .then((json) => {
         let randomMovie = Math.ceil(Math.random() * json.results.length - 2);
-        maxMoviePages.current = json.total_pages;
-        setMovies((p) => [...json.results]);
+        dispatch(addMovies(json.results));
         findAndSetMainMovie(json.results[randomMovie], setMainMovie);
       })
       .catch((err) => console.error(err));
-  }, [movieListType]);
-
-  useEffect(() => {
-    console.log(movies);
-  }, [movies]);
+  }, [movieListType, page]);
 
   return (
     <div>
@@ -92,7 +91,7 @@ export default function MoviesPage() {
               ></iframe>
             )}
           </div>
-          {movies.length > 0 && <MovieCategories movies={movies} />}
+          <MovieCategories />
         </div>
       </div>
     </div>

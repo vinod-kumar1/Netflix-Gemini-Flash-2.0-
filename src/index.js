@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import LoginPage from "./Components/LoginPage";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import NotFound from "./Components/NotFoundPage";
 
 let routerConfig = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ let routerConfig = createBrowserRouter([
   {
     path: "browse",
     element: <App />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

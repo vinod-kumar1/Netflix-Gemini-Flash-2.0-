@@ -1,36 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { tmdbKeys } from "../tmdb";
 import { findAndSetMainMovie } from "./MoviesPage";
-import { addMovies, addPage } from "../utils/moviesPagination";
+import { addPage } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 function MovieCategoryList({ name, moviesList, setPopUpModel }) {
-  let dispatch = useDispatch();
-  let page = useSelector((state) => state.moviesPagn.page);
-  console.log("page", page);
   return (
-    <div className="w-[80%] z-99 bg-red-500 px-4 h-[40%] py-4">
-      <h3>{name} </h3>
-      <div className="flex px-1 gap-4 mt-1 *:hover:cursor-pointer overflow-y-hidden overflow-x-scroll *:hover:bg-cover">
-        {moviesList.map((movie) => {
-          return (
-            <img
-              className="relative w-80 hover:bg-cover hover:scale-120 h-50 rounded-sm transition-all duration-400"
-              onClick={() => findAndSetMainMovie(movie, setPopUpModel)}
-              src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
-              alt={movie.title}
-            />
-          );
-        })}
-        <button
-          onClick={() => {
-            dispatch(addPage());
-          }}
-          className=" px-4 text-2xl hover:bg-gray-200 hover:rounded-r-2xl "
+    <div className="w-[900px]  mb-2 bg-red-500 px-4 py-4 overflow-x-hidden">
+      <h3>{name}</h3>
+      <div className="flex gap-2 mt-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+        {moviesList.map((movie) => (
+          <img
+            key={movie.id}
+            className="w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 hover:cursor-pointer"
+            onClick={() => findAndSetMainMovie(movie, setPopUpModel)}
+            src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
+            alt={movie.title}
+          />
+        ))}
+        <abbr
+          title="Click the button on right to load more movies"
+          className="text-4xl bg-white p-2 h-max rounded-xl relative top-15 no-underline flex-shrink-0"
         >
-          {">"}
-        </button>
+          ⛳️
+        </abbr>
       </div>
     </div>
   );
@@ -42,10 +36,9 @@ export default function MovieCategories() {
   let model = useRef();
   let popUpMovie = useRef();
   let movies = useSelector((state) => state.moviesPagn.movies);
-  console.log("movie", movies);
+  let dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log(movies);
     let popularityLessThan20 = movies.filter((movie) => movie.popularity <= 20);
     let popularityMorethan20 = movies.filter((movie) => movie.popularity > 20);
     setCategories({
@@ -87,17 +80,27 @@ export default function MovieCategories() {
           </dialog>
         </div>
       )}
-      <div className="gap-2 *:rounded-4xl flex flex-col items-center mt-4">
-        <MovieCategoryList
-          setPopUpModel={setPopUpModel}
-          name={"Popular Movies"}
-          moviesList={categories.morePopular}
-        />
-        <MovieCategoryList
-          setPopUpModel={setPopUpModel}
-          name={"Silver Movies"}
-          moviesList={categories.popular}
-        />
+      <div className="flex">
+        <div className="*:rounded-4xl flex flex-col w-screen items-center mt-4">
+          <MovieCategoryList
+            setPopUpModel={setPopUpModel}
+            name={"Popular Movies"}
+            moviesList={categories.morePopular}
+          />
+          <MovieCategoryList
+            setPopUpModel={setPopUpModel}
+            name={"Silver Movies"}
+            moviesList={categories.popular}
+          />
+        </div>
+        <button
+          onClick={() => dispatch(addPage())}
+          className="bg-red-500 h-max translate-y-15 -translate-x-20 py-2 px-2 rounded-r-lg w-max text-white hover:bg-white hover:text-red-500 hover:border-red-500 hover:border-[0.5px] cursor-pointer"
+        >
+          {[..."Load More Movies"].map((char) =>
+            char == " " ? <br /> : <p className="px-2">{char}</p>
+          )}
+        </button>
       </div>
     </div>
   );

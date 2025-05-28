@@ -24,9 +24,9 @@ export default function App() {
 
   let logOut = () => signOutUser().catch(console.log);
   return (
-    <div className="h-40 bg-black/60">
+    <div className="h-40">
       <div>
-        <div className="z-10 sticky w-screen flex justify-between px-4 py-4">
+        <div className="z-999 bg-black/50 sticky w-screen flex justify-between px-4 py-4">
           <h2 className="bg-gradient-to-r from-red-700 to-red-500 bg-clip-text text-transparent text-4xl font-serif  hover:underline">
             NETFLIX
           </h2>

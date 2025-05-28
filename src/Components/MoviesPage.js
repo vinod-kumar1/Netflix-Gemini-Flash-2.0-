@@ -60,13 +60,13 @@ export default function MoviesPage() {
 
   return (
     <div>
-      <div className="movie-lists">
+      <div className="movie-lists z-2">
         <div className="">
           <div className="main-movie">
             {mainMovie?.id && (
               <iframe
                 allowFullScreen={true}
-                className="top-10 w-screen relative -translate-y-10 h-[600px]"
+                className="-top-8 w-screen relative -translate-y-10 h-[650px]"
                 src={`https://www.youtube.com/embed/${mainMovie.key}?autoplay=0&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${mainMovie.key}&controls=1&mute=1`}
               ></iframe>
             )}

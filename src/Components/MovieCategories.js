@@ -60,7 +60,7 @@ export default function MovieCategories() {
   return (
     <div className="transition-all duration-500">
       {popupModel.key && (
-        <div className="absolute top-20" key={`${popupModel.key}-main`}>
+        <div className="absolute top-0" key={`${popupModel.key}-main`}>
           <dialog open ref={model}>
             <iframe
               ref={popUpMovie}

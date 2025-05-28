@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Netflix - GPT, build using TMDB API
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -41,9 +41,8 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+I've used Firebase for the Authentication and Deployment. You can find more about it here:
+https://firebase.google.com/docs/auth/web/password-auth
 
 ### Code Splitting
 
@@ -57,13 +56,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+I've deployed using Firebse cli tool. You can find more about it here
+https://firebase.google.com/docs/cli#mac-linux-npm
 
 ### `npm run build` fails to minify
 

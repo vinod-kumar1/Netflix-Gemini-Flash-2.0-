@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { tmdbKeys } from "../tmdb";
 import MovieCategories from "./MovieCategories";
 import { useSelector } from "react-redux";
-import { addPage, addMovies } from "../utils/moviesPagination";
+import { addPage, addMovies, setTotalPages } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import Volume from "./Volume";
 
@@ -33,8 +33,8 @@ export default function MoviesPage() {
   let [mainMovie, setMainMovie] = useState({});
   let page = useSelector((state) => state.moviesPagn.page);
   let details = useRef();
-
   let dispatch = useDispatch();
+
   if (details.current) details.current.removeAttribute("open");
   useEffect(() => {
     const url = `https://api.themoviedb.org/3/movie/${movieListType}?language=en-US&page=${page}`;
@@ -49,9 +49,11 @@ export default function MoviesPage() {
     fetch(url, options)
       .then((res) => res.json())
       .then((json) => {
+        console.log("json", json);
         let randomMovie = Math.ceil(Math.random() * json.results.length - 2);
         dispatch(addMovies(json.results));
         findAndSetMainMovie(json.results[randomMovie], setMainMovie);
+        dispatch(setTotalPages(json.total_pages));
       })
       .catch((err) => console.error(err));
   }, [movieListType, page]);

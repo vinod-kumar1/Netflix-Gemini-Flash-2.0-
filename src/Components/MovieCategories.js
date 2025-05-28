@@ -36,6 +36,8 @@ export default function MovieCategories() {
   let model = useRef();
   let popUpMovie = useRef();
   let movies = useSelector((state) => state.moviesPagn.movies);
+  let page = useSelector((state) => state.moviesPagn.page);
+  let pages = useSelector((state) => state.moviesPagn.totalPages);
   let dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,12 +60,12 @@ export default function MovieCategories() {
   return (
     <div className="transition-all duration-500">
       {popupModel.key && (
-        <div className="absolute top-20">
+        <div className="absolute top-20" key={`${popupModel.key}-main`}>
           <dialog open ref={model}>
             <iframe
               ref={popUpMovie}
               allowFullScreen={true}
-              className="w-screen relative h-screen z-999"
+              className="w-screen relative h-screen z-99"
               src={`https://www.youtube.com/embed/${popupModel.key}?autoplay=1&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&mute=1&color=red&loop=1&playlist=${popupModel.key}`}
             ></iframe>
             <button
@@ -87,6 +89,9 @@ export default function MovieCategories() {
             name={"Popular Movies"}
             moviesList={categories.morePopular}
           />
+          <p>
+            Total Pages : {page} / {pages}
+          </p>
           <MovieCategoryList
             setPopUpModel={setPopUpModel}
             name={"Silver Movies"}
@@ -94,11 +99,18 @@ export default function MovieCategories() {
           />
         </div>
         <button
+          disabled={page >= pages}
           onClick={() => dispatch(addPage())}
           className="bg-red-500 h-max translate-y-15 -translate-x-20 py-2 px-2 rounded-r-lg w-max text-white hover:bg-white hover:text-red-500 hover:border-red-500 hover:border-[0.5px] cursor-pointer"
         >
-          {[..."Load More Movies"].map((char) =>
-            char == " " ? <br /> : <p className="px-2">{char}</p>
+          {[..."Load More Movies"].map((char, i) =>
+            char == " " ? (
+              <br key={i} />
+            ) : (
+              <p key={i} className="px-2">
+                {char}
+              </p>
+            )
           )}
         </button>
       </div>

@@ -4,6 +4,7 @@ let moviesPagination = createSlice({
   name: "Movies Pagination",
   initialState: {
     page: 1,
+    totalPages: 0,
     movies: [],
   },
   reducers: {
@@ -11,11 +12,13 @@ let moviesPagination = createSlice({
       state.page += 1;
     },
     addMovies: (state, action) => {
-      // state.movies = [...state.movies, ...action.payload.movies];
       state.movies = [...state.movies, ...action.payload];
+    },
+    setTotalPages: (state, action) => {
+      state.totalPages = action.payload;
     },
   },
 });
 
 export default moviesPagination.reducer;
-export let { addPage, addMovies } = moviesPagination.actions;
+export let { addPage, addMovies, setTotalPages } = moviesPagination.actions;

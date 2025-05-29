@@ -1,30 +1,42 @@
 import { useEffect, useRef, useState } from "react";
 import { tmdbKeys } from "../tmdb";
-import { findAndSetMainMovie } from "./MoviesPage";
-import { addPage } from "../utils/moviesPagination";
+import {
+  setPlaying,
+  setTypePageCount,
+  setRequestedPaginationType,
+} from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-function MovieCategoryList({ name, moviesList, setPopUpModel }) {
+export function MovieCategoryList({ name, movies, type }) {
+  let dispatch = useDispatch();
   return (
-    <div className="w-[900px]  mb-2 bg-red-500 px-4 py-4 overflow-x-hidden">
-      <h3>{name}</h3>
-      <div className="flex gap-2 mt-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
-        {moviesList.map((movie) => (
+    <div className="w-screen px-4 overflow-x-hidden">
+      <h3 className="">{type}</h3>
+      <div className="flex gap-4 mt-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+        {movies.map((movie, idx) => (
           <img
-            key={movie.id}
+            key={movie.id + idx}
             className="w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 hover:cursor-pointer"
-            onClick={() => findAndSetMainMovie(movie, setPopUpModel)}
+            onClick={() => dispatch(setPlaying(movie))}
             src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
             alt={movie.title}
           />
         ))}
-        <abbr
-          title="Click the button on right to load more movies"
-          className="text-4xl bg-white p-2 h-max rounded-xl relative top-15 no-underline flex-shrink-0"
+        <button
+          onClick={() => {
+            let temp = type.split(" ").join("_").toLowerCase();
+            dispatch(
+              setTypePageCount({
+                type: temp,
+              })
+            );
+            dispatch(setRequestedPaginationType(temp));
+          }}
+          className="font-mono text-2xl h-50 px-2 bg-black/40 rounded-r-md hover:bg-white hover:text-red-500 cursor-pointer"
         >
-          ⛳️
-        </abbr>
+          {">"}
+        </button>
       </div>
     </div>
   );
@@ -62,12 +74,12 @@ export default function MovieCategories() {
       {popupModel.key && (
         <div className="absolute top-0" key={`${popupModel.key}-main`}>
           <dialog open ref={model}>
-            <iframe
+            {/* <iframe
               ref={popUpMovie}
               allowFullScreen={true}
               className="w-screen relative h-screen z-99"
               src={`https://www.youtube.com/embed/${popupModel.key}?autoplay=1&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&mute=1&color=red&loop=1&playlist=${popupModel.key}`}
-            ></iframe>
+            ></iframe> */}
             <button
               onClick={() => {
                 model.current.close();
@@ -100,7 +112,7 @@ export default function MovieCategories() {
         </div>
         <button
           disabled={page >= pages}
-          onClick={() => dispatch(addPage())}
+          //   onClick={() => dispatch(addPage())}
           className="bg-red-500 h-max translate-y-15 -translate-x-20 py-2 px-2 rounded-r-lg w-max text-white hover:bg-white hover:text-red-500 hover:border-red-500 hover:border-[0.5px] cursor-pointer"
         >
           {[..."Load More Movies"].map((char, i) =>

@@ -28,7 +28,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={appStore}>
     <RouterProvider router={routerConfig}>
-      <App />
+      <div className="bg-gradient-to-b from-red-500 to-black h-screen">
+        <App />
+      </div>
     </RouterProvider>
   </Provider>
 );

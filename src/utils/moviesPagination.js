@@ -1,24 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let moviesPagination = createSlice({
+const moviesPagination = createSlice({
   name: "Movies Pagination",
   initialState: {
-    page: 1,
     totalPages: 0,
     movies: [],
+    moviesType: {
+      popular: [],
+      top_rated: [],
+      now_playing: [],
+      upcoming: [],
+    },
+    playing: {},
+    typePageCount: {
+      popular: 1,
+      top_rated: 1,
+      now_playing: 1,
+      upcoming: 1,
+    },
+    requestedPaginationType: "",
   },
   reducers: {
-    addPage: (state) => {
-      state.page += 1;
-    },
     addMovies: (state, action) => {
-      state.movies = [...state.movies, ...action.payload];
+      state.movies.push(...action.payload);
     },
     setTotalPages: (state, action) => {
       state.totalPages = action.payload;
+    },
+    updateMoviesType: (state, action) => {
+      const { type, movies } = action.payload;
+      if (state.moviesType[type] && Array.isArray(movies)) {
+        state.moviesType[type].push(...movies);
+      }
+    },
+    setPlaying: (state, action) => {
+      state.playing = action.payload;
+    },
+    setTypePageCount: (state, action) => {
+      const type = action.payload.type;
+      if (type in state.typePageCount) {
+        state.typePageCount[type] += 1;
+      }
+    },
+    setRequestedPaginationType: (state, action) => {
+      state.requestedPaginationType = action.payload;
     },
   },
 });
 
 export default moviesPagination.reducer;
-export let { addPage, addMovies, setTotalPages } = moviesPagination.actions;
+export let {
+  addMovies,
+  setTotalPages,
+  updateMoviesType,
+  setPlaying,
+  setTypePageCount,
+  setRequestedPaginationType,
+} = moviesPagination.actions;

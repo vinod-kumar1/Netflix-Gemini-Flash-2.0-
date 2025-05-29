@@ -19,6 +19,7 @@ const moviesPagination = createSlice({
       upcoming: 1,
     },
     requestedPaginationType: "",
+    muted: 1,
   },
   reducers: {
     addMovies: (state, action) => {
@@ -45,6 +46,9 @@ const moviesPagination = createSlice({
     setRequestedPaginationType: (state, action) => {
       state.requestedPaginationType = action.payload;
     },
+    setMuted: (state) => {
+      state.muted = state.muted == 0 ? 1 : 0;
+    },
   },
 });
 
@@ -56,4 +60,5 @@ export let {
   setPlaying,
   setTypePageCount,
   setRequestedPaginationType,
+  setMuted,
 } = moviesPagination.actions;

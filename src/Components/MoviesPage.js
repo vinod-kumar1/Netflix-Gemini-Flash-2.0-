@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { tmdbKeys } from "../tmdb";
 import { useSelector } from "react-redux";
 import {
   updateMoviesType,
   setPlaying,
-  setRequestedPaginationType,
+  setMuted,
 } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { MovieCategoryList } from "./MovieCategories";
@@ -18,20 +18,6 @@ export const options = {
   },
 };
 
-function findAndSetMainMovie(movie) {
-  const url = `https://api.themoviedb.org/3/movie/${movie.id}/videos?language=en-US`;
-
-  return fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => {
-      let trailerMovie = Array.from(json.results).filter(
-        (obj) => obj.type == "Trailer"
-      )[0];
-      return trailerMovie;
-    })
-    .catch((err) => console.error(err));
-}
-
 export default function MoviesPage() {
   // let [movieListType, setMovieListType] = useState("top_rated");
   let moviesType = useSelector((state) => state.moviesPagn.moviesType);
@@ -40,6 +26,8 @@ export default function MoviesPage() {
   let curType = useSelector(
     (state) => state.moviesPagn.requestedPaginationType
   );
+  let muted = useSelector((state) => state.moviesPagn.muted);
+  let [render, forceRender] = useState(true);
   let dispatch = useDispatch();
   let types = ["now_playing", "top_rated", "upcoming", "popular"];
 
@@ -70,6 +58,10 @@ export default function MoviesPage() {
   }, []);
 
   useEffect(() => {
+    forceRender((p) => !p);
+  }, [muted]);
+
+  useEffect(() => {
     fetchMovieTypeList(curType, page[curType])
       .then((res) => res.json())
       .then((json) => {
@@ -84,11 +76,23 @@ export default function MoviesPage() {
         <div className="">
           <div className="main-movie">
             {playing?.id && (
-              <iframe
-                allowFullScreen={true}
-                className="-top-8 w-screen relative -translate-y-10 h-[650px]"
-                src={`https://www.youtube.com/embed/${playing.key}?autoplay=0&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=1`}
-              ></iframe>
+              <>
+                <iframe
+                  allowFullScreen={true}
+                  className="-top-8 w-screen relative -translate-y-10 h-[650px]"
+                  src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=1`}
+                ></iframe>
+                <img
+                  className="absolute z-999  w-10 top-105 right-4 cursor-pointer"
+                  onClick={() => dispatch(setMuted())}
+                  src={
+                    muted == 1
+                      ? "https://images.icon-icons.com/1152/PNG/512/1486506271-music-mute-sound-volume-speaker-audio-player_81465.png"
+                      : "https://images.icon-icons.com/1146/PNG/512/1486485571-198high-loud-music-on-sound-speaker-volume_81180.png"
+                  }
+                  alt="volume icon"
+                />
+              </>
             )}
           </div>
           <div className="movie-list-type py-2 translate-y-1 relative bottom-40 flex flex-col gap-4">
@@ -112,5 +116,3 @@ export default function MoviesPage() {
     </div>
   );
 }
-
-export { findAndSetMainMovie };

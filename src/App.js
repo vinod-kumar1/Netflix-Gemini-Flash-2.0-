@@ -26,11 +26,11 @@ export default function App() {
   return (
     <div className="h-40">
       <div>
-        <div className="z-999  bg-black/50 sticky w-screen flex justify-between px-4 py-4">
+        <div className="z-999  bg-gradient-to-b from-black to-trasparent sticky w-screen flex justify-between px-4 py-4 h-30">
           <h2 className="bg-gradient-to-r from-red-700 to-red-500 bg-clip-text text-transparent text-4xl font-serif  hover:underline">
             NETFLIX
           </h2>
-          <div className=" flex gap-1 relative top-4 -translate-y-3">
+          <div className="flex gap-1 relative top-4 -translate-y-3">
             <img className="h-8 rounded-md" src={photo} alt="user-icon" />
             <button
               onClick={logOut}

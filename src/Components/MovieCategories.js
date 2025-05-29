@@ -7,18 +7,36 @@ import {
 } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { fetchMovieKey } from "../utils/fetch";
 
 export function MovieCategoryList({ name, movies, type }) {
   let dispatch = useDispatch();
+
+  function findMovieKeyAndSet(id) {
+    fetchMovieKey(id)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("json", json);
+        dispatch(setPlaying(json.results[0]));
+        window.scroll({
+          top: 0,
+          behavior: "smooth",
+        });
+      })
+      .catch(console.log);
+  }
+
   return (
-    <div className="w-screen px-4 overflow-x-hidden">
-      <h3 className="">{type}</h3>
+    <div className="w-screen px-4 overflow-x-hidden mb-5">
+      <h3 className="bg-gradient-to-r from-red-600 to-black/10 w-max px-2">
+        {type}
+      </h3>
       <div className="flex gap-4 mt-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
         {movies.map((movie, idx) => (
           <img
             key={movie.id + idx}
             className="w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 hover:cursor-pointer"
-            onClick={() => dispatch(setPlaying(movie))}
+            onClick={() => findMovieKeyAndSet(movie.id)}
             src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
             alt={movie.title}
           />

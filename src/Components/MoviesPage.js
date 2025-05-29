@@ -80,7 +80,7 @@ export default function MoviesPage() {
 
   return (
     <div>
-      <div className="movie-lists z-2">
+      <div className="movie-lists z-2 relative -top-10">
         <div className="">
           <div className="main-movie">
             {playing?.id && (
@@ -91,7 +91,7 @@ export default function MoviesPage() {
               ></iframe>
             )}
           </div>
-          <div className="movie-list-type py-2 translate-y-1 bg-gradient-to-r from-black to-red-600 to-100% relative bottom-40 text-white flex flex-col gap-4">
+          <div className="movie-list-type py-2 translate-y-1 relative bottom-40 flex flex-col gap-4">
             {moviesType?.top_rated.length ? (
               <div>
                 {types.map((type) => {

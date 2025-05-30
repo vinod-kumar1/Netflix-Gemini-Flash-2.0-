@@ -36,7 +36,7 @@ export function MovieCategoryList({ name, movies, type }) {
         {movies.map((movie, idx) => (
           <img
             key={movie.id + idx}
-            className="w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 hover:cursor-pointer"
+            className={`w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
             onClick={() => {
               findMovieKeyAndSet(movie.id);
               console.log("mp", movie);
@@ -56,7 +56,7 @@ export function MovieCategoryList({ name, movies, type }) {
             );
             dispatch(setRequestedPaginationType(temp));
           }}
-          className="font-mono text-2xl h-50 px-2 bg-black/40 rounded-r-md hover:bg-white hover:text-red-500 cursor-pointer"
+          className="font-mono text-2xl h-50 px-2 bg-red-500 text-white rounded-r-md hover:bg-white hover:text-red-500 cursor-pointer hover:border-[0.5px] mr-2"
         >
           {">"}
         </button>

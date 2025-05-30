@@ -51,7 +51,6 @@ export default function MoviesPage() {
             )
               .then((res) => res.json())
               .then((json) => {
-                console.log("tra", movie);
                 dispatch(
                   setPlayingMovieDetails({
                     title: movie.title,
@@ -95,7 +94,7 @@ export default function MoviesPage() {
                   src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=1`}
                 ></iframe>
                 <img
-                  className={`absolute z-999  w-10 top-95 right-4 cursor-pointer`}
+                  className="absolute z-999 w-10 top-95 right-4 cursor-pointer"
                   onClick={() => dispatch(setMuted())}
                   src={
                     muted == 1
@@ -124,6 +123,7 @@ export default function MoviesPage() {
                   return (
                     <MovieCategoryList
                       movies={moviesType[type]}
+                      x
                       type={type.split("_").join(" ").toUpperCase()}
                     />
                   );

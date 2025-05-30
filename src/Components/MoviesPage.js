@@ -83,12 +83,12 @@ export default function MoviesPage() {
                   src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=1`}
                 ></iframe>
                 <img
-                  className="absolute z-999  w-10 top-105 right-4 cursor-pointer"
+                  className="absolute z-999  w-10 top-95 right-4 cursor-pointer"
                   onClick={() => dispatch(setMuted())}
                   src={
                     muted == 1
-                      ? "https://images.icon-icons.com/1152/PNG/512/1486506271-music-mute-sound-volume-speaker-audio-player_81465.png"
-                      : "https://images.icon-icons.com/1146/PNG/512/1486485571-198high-loud-music-on-sound-speaker-volume_81180.png"
+                      ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cline x1='22' y1='9' x2='16' y2='15'/%3E%3Cline x1='16' y1='9' x2='22' y2='15'/%3E%3C/svg%3E"
+                      : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.54 8.46a5 5 0 0 1 0 7.07'/%3E%3Cpath d='M19.07 4.93a10 10 0 0 1 0 14.14'/%3E%3C/svg%3E"
                   }
                   alt="volume icon"
                 />

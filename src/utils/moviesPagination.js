@@ -12,6 +12,7 @@ const moviesPagination = createSlice({
       upcoming: [],
     },
     playing: {},
+    playingMovieDetails: { name: "", description: "" },
     typePageCount: {
       popular: 1,
       top_rated: 1,
@@ -22,6 +23,11 @@ const moviesPagination = createSlice({
     muted: 1,
   },
   reducers: {
+    setPlayingMovieDetails: (state, action) => {
+      let { title, overview } = action.payload;
+      state.playingMovieDetails.name = title;
+      state.playingMovieDetails.description = overview;
+    },
     addMovies: (state, action) => {
       state.movies.push(...action.payload);
     },
@@ -58,6 +64,7 @@ export let {
   setTotalPages,
   updateMoviesType,
   setPlaying,
+  setPlayingMovieDetails,
   setTypePageCount,
   setRequestedPaginationType,
   setMuted,

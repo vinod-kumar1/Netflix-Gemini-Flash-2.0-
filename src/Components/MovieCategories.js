@@ -4,6 +4,7 @@ import {
   setPlaying,
   setTypePageCount,
   setRequestedPaginationType,
+  setPlayingMovieDetails,
 } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -36,7 +37,11 @@ export function MovieCategoryList({ name, movies, type }) {
           <img
             key={movie.id + idx}
             className="w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 hover:cursor-pointer"
-            onClick={() => findMovieKeyAndSet(movie.id)}
+            onClick={() => {
+              findMovieKeyAndSet(movie.id);
+              console.log("mp", movie);
+              dispatch(setPlayingMovieDetails(movie));
+            }}
             src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
             alt={movie.title}
           />

@@ -5,6 +5,7 @@ import {
   updateMoviesType,
   setPlaying,
   setMuted,
+  setPlayingMovieDetails,
 } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { MovieCategoryList } from "./MovieCategories";
@@ -19,7 +20,6 @@ export const options = {
 };
 
 export default function MoviesPage() {
-  // let [movieListType, setMovieListType] = useState("top_rated");
   let moviesType = useSelector((state) => state.moviesPagn.moviesType);
   let playing = useSelector((state) => state.moviesPagn.playing);
   let page = useSelector((state) => state.moviesPagn.typePageCount);
@@ -27,11 +27,15 @@ export default function MoviesPage() {
     (state) => state.moviesPagn.requestedPaginationType
   );
   let muted = useSelector((state) => state.moviesPagn.muted);
+  let movieDetails = useSelector(
+    (state) => state.moviesPagn.playingMovieDetails
+  );
+
   let [render, forceRender] = useState(true);
   let dispatch = useDispatch();
   let types = ["now_playing", "top_rated", "upcoming", "popular"];
 
-  console.log("page", page);
+  console.log("page", movieDetails);
   useEffect(() => {
     types.forEach((type) => {
       const url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${page[type]}`;
@@ -39,6 +43,7 @@ export default function MoviesPage() {
         .then((res) => res.json())
         .then((json) => {
           let randomMovie = Math.ceil(Math.random() * json.results.length - 2);
+          let movie = json.results[randomMovie];
           if (!playing.id) {
             fetch(
               `https://api.themoviedb.org/3/movie/${json.results[randomMovie].id}/videos?language=en-US`,
@@ -46,11 +51,18 @@ export default function MoviesPage() {
             )
               .then((res) => res.json())
               .then((json) => {
-                console.log("trailer", json);
+                console.log("tra", movie);
+                dispatch(
+                  setPlayingMovieDetails({
+                    title: movie.title,
+                    overview: movie.overview,
+                  })
+                );
                 dispatch(setPlaying(json.results[0]));
               })
               .catch(console.log);
           }
+          // console.log("random", json.results[randomMovie]);
           dispatch(updateMoviesType({ type: type, movies: json.results }));
         })
         .catch((err) => console.error(err));
@@ -80,7 +92,7 @@ export default function MoviesPage() {
                 <iframe
                   allowFullScreen={true}
                   className="-top-8 w-screen relative -translate-y-10 h-[650px]"
-                  src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=1`}
+                  src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=0`}
                 ></iframe>
                 <img
                   className="absolute z-999  w-10 top-95 right-4 cursor-pointer"
@@ -92,6 +104,16 @@ export default function MoviesPage() {
                   }
                   alt="volume icon"
                 />
+                {movieDetails.name && (
+                  <div className="text-white flex flex-wrap flex-col w-100 bg-gradient-to-r from-black to-transparent z-10000 top-50 h-[100%] absolute">
+                    <p className="text-2xl font-[monospace] w-max mb-4 px-4">
+                      {movieDetails.name}
+                    </p>
+                    <p className="w-[100%] font-extralight">
+                      {movieDetails.description.slice(0, 150)}...
+                    </p>
+                  </div>
+                )}
               </>
             )}
           </div>

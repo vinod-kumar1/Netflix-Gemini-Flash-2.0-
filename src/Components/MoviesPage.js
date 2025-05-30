@@ -92,10 +92,10 @@ export default function MoviesPage() {
                 <iframe
                   allowFullScreen={true}
                   className="-top-8 w-screen relative -translate-y-10 h-[650px]"
-                  src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=0`}
+                  src={`https://www.youtube.com/embed/${playing.key}?origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&fs=1&autohide=1&&color=red&loop=1&playlist=${playing.key}&controls=0&mute=${muted}&autoplay=1`}
                 ></iframe>
                 <img
-                  className="absolute z-999  w-10 top-95 right-4 cursor-pointer"
+                  className={`absolute z-999  w-10 top-95 right-4 cursor-pointer`}
                   onClick={() => dispatch(setMuted())}
                   src={
                     muted == 1
@@ -105,7 +105,7 @@ export default function MoviesPage() {
                   alt="volume icon"
                 />
                 {movieDetails.name && (
-                  <div className="text-white flex flex-wrap flex-col w-100 bg-gradient-to-r from-black to-transparent z-10000 top-50 h-[100%] absolute">
+                  <div className="text-white flex flex-wrap flex-col w-100 h-max z-10000 top-50 absolute">
                     <p className="text-2xl font-[monospace] w-max mb-4 px-4">
                       {movieDetails.name}
                     </p>

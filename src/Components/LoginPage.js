@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userDetails";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../utils/validate";
+import { tmdbKeys } from "../tmdb";
 
 export default function LoginPage() {
   let formData = useRef(null);
@@ -84,7 +85,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page bg-[url(https://assets.nflxext.com/ffe/siteui/vlv3/914ad279-199e-4095-9c10-2409dc9e5e1b/web/IN-en-20250519-TRIFECTA-perspective_8f1ca896-9e49-4a4e-90f0-22fc49650bd9_medium.jpg)] bg-cover min-h-screen overflow-hidden flex justify-center">
+    <div
+      className={`login-page bg-[url(${tmdbKeys.loginPageBgImg})] bg-cover min-h-screen overflow-hidden flex justify-center`}
+    >
       <h2 className=" text-red-600 text-4xl relative left-2 top-8 underline">
         Netflix gpt
       </h2>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { tmdbKeys } from "../tmdb";
 import { useSelector } from "react-redux";
 import {
   updateMoviesType,
@@ -10,6 +9,7 @@ import {
 import { useDispatch } from "react-redux";
 import { MovieCategoryList } from "./MovieCategories";
 import { fetchMovieTypeList } from "../utils/fetch";
+import { tmdbKeys } from "../tmdb";
 
 export const options = {
   method: "GET",
@@ -96,11 +96,7 @@ export default function MoviesPage() {
                 <img
                   className="absolute z-999 w-10 top-95 right-4 cursor-pointer"
                   onClick={() => dispatch(setMuted())}
-                  src={
-                    muted == 1
-                      ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cline x1='22' y1='9' x2='16' y2='15'/%3E%3Cline x1='16' y1='9' x2='22' y2='15'/%3E%3C/svg%3E"
-                      : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.54 8.46a5 5 0 0 1 0 7.07'/%3E%3Cpath d='M19.07 4.93a10 10 0 0 1 0 14.14'/%3E%3C/svg%3E"
-                  }
+                  src={muted == 1 ? tmdbKeys.muteIcon : tmdbKeys.unmuteIcon}
                   alt="volume icon"
                 />
                 {movieDetails.name && (

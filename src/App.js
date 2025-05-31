@@ -11,7 +11,7 @@ export default function App() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
   let [Gemini, setGemini] = useState(false);
-  let photo = useSelector((state) => state.user?.profile_photo);
+  let photo = useSelector((state) => state.user.profile_photo);
   let [alert, setAlert] = useState(true);
 
   useEffect(() => {

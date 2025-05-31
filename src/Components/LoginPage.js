@@ -26,13 +26,20 @@ export default function LoginPage() {
       if (user) {
         // signup or signin
         setError({ isTrue: false, message: "" });
-        let userData = {};
-        Array.from(formData.current.elements).forEach((ele) => {
-          if (ele.name == "email" || ele.name == "photo")
-            if (ele.value) userData[ele.name] = ele.value;
-        });
-        dispatch(addUser(userData));
         navigate("/browse");
+        let userData = {};
+        Array.from(formData.current?.elements).forEach((ele) => {
+          if (ele.name == "email" || ele.name == "photo")
+            userData[ele.name] = ele.value;
+        });
+        dispatch(
+          addUser({
+            email: userData["email"],
+            profile_photo: userData["photo"]
+              ? userData["photo"]
+              : tmdbKeys.profile_photo,
+          })
+        );
       } else {
         // signout
         dispatch(removeUser());
@@ -48,7 +55,7 @@ export default function LoginPage() {
       let email = "";
       let password = "";
 
-      Array.from(formData.current.elements).forEach((ele) => {
+      Array.from(formData.current?.elements).forEach((ele) => {
         if (ele.name == "email") email = ele.value;
         if (ele.name == "password") password = ele.value;
       });
@@ -62,14 +69,14 @@ export default function LoginPage() {
         });
     } else {
       let userData = {};
-      Array.from(formData.current.elements).forEach(
+      Array.from(formData.current?.elements).forEach(
         (ele) => (userData[ele.name] = ele.value)
       );
       signUp(userData)
         .then((res) => {
           updateProfile(auth.currentUser, {
             name: userData.name,
-            photoURL: userData.photo,
+            photoURL: userData.photo || tmdbKeys.profile_photo,
           })
             .then(() => {
               console.log("Profile Update");

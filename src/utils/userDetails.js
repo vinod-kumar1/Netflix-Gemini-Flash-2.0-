@@ -1,23 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { tmdbKeys } from "../tmdb";
 
 // export default function userDetails() {
 let userDetails = createSlice({
   name: "user",
   initialState: {
     email: "",
-    profile_photo: "https://avatars.githubusercontent.com/u/101015037?v=4",
+    profile_photo: tmdbKeys.profile_photo,
   },
   reducers: {
     addUser: (state, action) => {
-      return {
-        email: action.payload.email,
-        profile_photo: action.payload.photo
-          ? action.payload.photo
-          : state.profile_photo,
-      };
+      state.email = action.payload.email;
+      state.profile_photo = action.payload.profile_photo;
     },
     removeUser: (state, action) => {
-      return null;
+      return {
+        email: "",
+        profile_photo: tmdbKeys.profile_photo,
+      };
     },
   },
 });

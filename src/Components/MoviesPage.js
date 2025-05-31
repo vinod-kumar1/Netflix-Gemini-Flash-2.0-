@@ -35,7 +35,6 @@ export default function MoviesPage() {
   let dispatch = useDispatch();
   let types = ["now_playing", "top_rated", "upcoming", "popular"];
 
-  console.log("page", movieDetails);
   useEffect(() => {
     types.forEach((type) => {
       const url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${page[type]}`;
@@ -61,7 +60,6 @@ export default function MoviesPage() {
               })
               .catch(console.log);
           }
-          // console.log("random", json.results[randomMovie]);
           dispatch(updateMoviesType({ type: type, movies: json.results }));
         })
         .catch((err) => console.error(err));
@@ -118,8 +116,8 @@ export default function MoviesPage() {
                 {types.map((type) => {
                   return (
                     <MovieCategoryList
+                      key={type}
                       movies={moviesType[type]}
-                      x
                       type={type.split("_").join(" ").toUpperCase()}
                     />
                   );

@@ -25,6 +25,7 @@ const moviesPagination = createSlice({
   reducers: {
     setPlayingMovieDetails: (state, action) => {
       let { title, overview } = action.payload;
+      console.log("pllb", action.payload);
       state.playingMovieDetails.name = title;
       state.playingMovieDetails.description = overview;
     },
@@ -41,6 +42,7 @@ const moviesPagination = createSlice({
       }
     },
     setPlaying: (state, action) => {
+      console.log("plla", action.payload);
       state.playing = action.payload;
     },
     setTypePageCount: (state, action) => {

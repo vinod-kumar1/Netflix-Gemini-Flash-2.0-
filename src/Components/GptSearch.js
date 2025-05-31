@@ -11,6 +11,8 @@ const GptSearch = ({ setGpt }) => {
   let search = useRef("");
   let [error, setError] = useState({ exists: false, message: "" });
   let [movies, setMovies] = useState([]);
+  let [loading, setLoading] = useState(false);
+
   let dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,6 +20,9 @@ const GptSearch = ({ setGpt }) => {
       search.current.focus();
     }
   }, []);
+  useEffect(() => {
+    setLoading(false);
+  }, [movies]);
 
   //   useEffect(() => {
   console.log(movies);
@@ -37,10 +42,6 @@ const GptSearch = ({ setGpt }) => {
             model: "gemini-2.0-flash",
             contents: query,
           });
-          //   response.text.split(",").forEach((movie) => {
-          //     const url = `https://api.themoviedb.org/3/search/movie?query=${movie}&include_adult=false&language=en-US&page=1`;
-          //    await fetch(url, options)
-          //   });
           console.log("ai ", response.text);
           let promiiseMovies = response.text.split(", ").map(async (movie) => {
             try {
@@ -62,7 +63,6 @@ const GptSearch = ({ setGpt }) => {
           res = res.filter(Boolean);
           setMovies(res);
         }
-
         main();
       }
     } catch (err) {
@@ -81,10 +81,14 @@ const GptSearch = ({ setGpt }) => {
         placeholder="GPT: Hey! What do you want to watch"
       />
       <button
-        onClick={searchMovies}
+        onClick={() => {
+          setLoading(true);
+          searchMovies();
+        }}
         className="bg-white text-red-600 px-2 cursor-pointer h-10"
       >
-        Search
+        Search{" "}
+        {loading && <p className="inline-block animate-spin size-xl">🌀</p>}
       </button>
       {movies.length && (
         <div className="flex flex-wrap absolute top-100 gap-2 bg-black w-screen px-5">
@@ -95,10 +99,10 @@ const GptSearch = ({ setGpt }) => {
                   key={movie.id + idx}
                   className={`w-40 h-50 flex-shrink-0 hover:shadow-[2px_2px_2px_red] rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
                   onClick={() => {
-                    dispatch(setPlayingMovieDetails(movie));
                     fetchMovieKey(movie.id)
                       .then((res) => res.json())
                       .then((json) => {
+                        dispatch(setPlayingMovieDetails(movie));
                         dispatch(setPlaying(json.results[0]));
                         setGpt(false);
                       })

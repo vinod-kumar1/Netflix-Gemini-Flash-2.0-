@@ -37,7 +37,7 @@ export default function App() {
   return (
     <div className="h-40">
       {alert && (
-        <i className="z-9999 bg-amber-200 absolute top-0">
+        <i className="w-screen z-9999 bg-amber-200 absolute top-0">
           ℹ Please refresh the page if the movies doesn't load. API might've hit
           the rate limit
         </i>

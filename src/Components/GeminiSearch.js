@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setPlayingMovieDetails, setPlaying } from "../utils/moviesPagination";
 import { fetchMovieKey } from "../utils/fetch";
 
-const GptSearch = ({ setGpt }) => {
+const GeminiSearch = ({ setGemini }) => {
   let search = useRef("");
   let [error, setError] = useState({ exists: false, message: "" });
   let [movies, setMovies] = useState([]);
@@ -78,7 +78,7 @@ const GptSearch = ({ setGpt }) => {
         type="text"
         ref={search}
         className="bg-white h-10 w-100 outline-red-500 outline-[1px] px-2 relative  shadow-[2px_5px_1px_red]"
-        placeholder="GPT: Hey! What do you want to watch"
+        placeholder="Flash 2.0: Hey! What do you want to watch"
       />
       <button
         onClick={() => {
@@ -104,7 +104,7 @@ const GptSearch = ({ setGpt }) => {
                       .then((json) => {
                         dispatch(setPlayingMovieDetails(movie));
                         dispatch(setPlaying(json.results[0]));
-                        setGpt(false);
+                        setGemini(false);
                       })
                       .catch(console.log);
                   }}
@@ -119,4 +119,4 @@ const GptSearch = ({ setGpt }) => {
   );
 };
 
-export default GptSearch;
+export default GeminiSearch;

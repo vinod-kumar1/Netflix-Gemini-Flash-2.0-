@@ -89,7 +89,7 @@ export default function LoginPage() {
       className={`login-page bg-[url(${tmdbKeys.loginPageBgImg})] bg-cover min-h-screen overflow-hidden flex justify-center`}
     >
       <h2 className=" text-red-600 text-4xl relative left-2 top-8 underline">
-        Netflix gpt
+        Netflix Gemini
       </h2>
       <form
         name="login-form"

@@ -5,15 +5,15 @@ let userDetails = createSlice({
   name: "user",
   initialState: {
     email: "",
-    uid: "",
-    accessToken: null,
     profile_photo: "https://avatars.githubusercontent.com/u/101015037?v=4",
   },
   reducers: {
     addUser: (state, action) => {
       return {
         email: action.payload.email,
-        profile_photo: action.payload.photo,
+        profile_photo: action.payload.photo
+          ? action.payload.photo
+          : state.profile_photo,
       };
     },
     removeUser: (state, action) => {

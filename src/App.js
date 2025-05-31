@@ -4,13 +4,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { removeUser } from "./utils/userDetails";
-import GptSearch from "./Components/GptSearch";
+import GeminiSearch from "./Components/GeminiSearch";
 import MoviesPage from "./Components/MoviesPage";
 
 export default function App() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
-  let [gpt, setGpt] = useState(false);
+  let [Gemini, setGemini] = useState(false);
   let photo = useSelector((state) => state.user?.profile_photo);
 
   useEffect(() => {
@@ -30,9 +30,9 @@ export default function App() {
     <div className="h-40">
       <button
         className="absolute z-1000 py-1 bg-gradient-to-r from-white to-50% to-red-900 px-4 top-5 rounded-md cursor-pointer right-40"
-        onClick={() => setGpt((p) => !p)}
+        onClick={() => setGemini((p) => !p)}
       >
-        Gpt Search
+        Gemini Search
       </button>
       <div>
         <div className="z-999  bg-gradient-to-b from-black to-trasparent sticky w-screen flex justify-between px-4 py-4 h-30">
@@ -49,7 +49,7 @@ export default function App() {
             </button>
           </div>
         </div>
-        {gpt ? <GptSearch setGpt={setGpt} /> : <MoviesPage />}
+        {Gemini ? <GeminiSearch setGemini={setGemini} /> : <MoviesPage />}
       </div>
     </div>
   );

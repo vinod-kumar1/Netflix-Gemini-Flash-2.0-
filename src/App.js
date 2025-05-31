@@ -12,6 +12,7 @@ export default function App() {
   let navigate = useNavigate();
   let [Gemini, setGemini] = useState(false);
   let photo = useSelector((state) => state.user?.profile_photo);
+  let [alert, setAlert] = useState(true);
 
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
@@ -26,8 +27,21 @@ export default function App() {
 
   let logOut = () => signOutUser().catch(console.log);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAlert(false);
+    }, [5000]);
+    return () => setAlert(false);
+  }, []);
+
   return (
     <div className="h-40">
+      {alert && (
+        <i className="z-9999 bg-amber-200 absolute top-0">
+          ℹ Please refresh the page if the movies doesn't load. API might've hit
+          the rate limit
+        </i>
+      )}
       <button
         className="absolute z-1000 py-1 bg-gradient-to-r from-white to-50% to-red-900 px-4 top-5 rounded-md cursor-pointer right-40"
         onClick={() => setGemini((p) => !p)}

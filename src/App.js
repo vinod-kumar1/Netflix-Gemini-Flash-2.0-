@@ -43,17 +43,17 @@ export default function App() {
         </i>
       )}
       <button
-        className="absolute z-1000 py-1 bg-gradient-to-r from-white to-50% to-red-900 px-4 top-5 rounded-md cursor-pointer right-40"
+        className="absolute sm:w-max z-1000 py-1 bg-gradient-to-r from-white to-50% to-red-900 px-4 top-20 sm:right-40 sm:top-5 rounded-md cursor-pointer"
         onClick={() => setGemini((p) => !p)}
       >
         Gemini Search
       </button>
       <div>
-        <div className="z-999  bg-gradient-to-b from-black to-trasparent sticky w-screen flex justify-between px-4 py-4 h-30">
-          <h2 className="bg-gradient-to-r from-red-700 to-red-500 bg-clip-text text-transparent text-4xl font-serif  hover:underline">
+        <div className="z-999 bg-gradient-to-b from-black to-trasparent sticky w-screen flex-col flex items-center md:flex-row md:justify-between px-4 py-4 h-30">
+          <h2 className="bg-gradient-to-r sm:absolute sm:top-5 from-red-700 to-red-500 bg-clip-text text-transparent text-4xl font-serif  hover:underline">
             NETFLIX
           </h2>
-          <div className="flex gap-1 relative top-4 -translate-y-3">
+          <div className="flex gap-1 relative sm:-top-3 justify-end w-full top-10 -translate-y-3">
             <img className="h-8 rounded-md" src={photo} alt="user-icon" />
             <button
               onClick={logOut}

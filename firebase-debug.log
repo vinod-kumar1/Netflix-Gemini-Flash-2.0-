@@ -1,0 +1,16 @@
+[debug] [2025-06-01T05:50:51.475Z] ----------------------------------------------------------------------
+[debug] [2025-06-01T05:50:51.476Z] Command:       /opt/homebrew/Cellar/node/23.11.0/bin/node /Users/vinod/.local/bin/firebase deploy
+[debug] [2025-06-01T05:50:51.476Z] CLI Version:   14.4.0
+[debug] [2025-06-01T05:50:51.476Z] Platform:      darwin
+[debug] [2025-06-01T05:50:51.477Z] Node Version:  v23.11.0
+[debug] [2025-06-01T05:50:51.477Z] Time:          Sun Jun 01 2025 11:20:51 GMT+0530 (India Standard Time)
+[debug] [2025-06-01T05:50:51.477Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-01T05:50:51.560Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-01T05:50:51.560Z] > authorizing via signed-in user (vinu22149@gmail.com)
+[debug] [2025-06-01T05:50:51.561Z] [iam] checking project netflix-gpt-4ded3 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-06-01T05:50:51.561Z] Checked if tokens are valid: true, expires at: 1748760191443
+[debug] [2025-06-01T05:50:51.561Z] Checked if tokens are valid: true, expires at: 1748760191443
+[debug] [2025-06-01T05:50:51.561Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/netflix-gpt-4ded3:testIamPermissions [none]
+[debug] [2025-06-01T05:50:51.561Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/netflix-gpt-4ded3:testIamPermissions x-goog-quota-user=projects/netflix-gpt-4ded3
+[debug] [2025-06-01T05:50:51.561Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/netflix-gpt-4ded3:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}

@@ -24,10 +24,6 @@ const GeminiSearch = ({ setGemini }) => {
     setLoading(false);
   }, [movies]);
 
-  //   useEffect(() => {
-  console.log(movies);
-  //   }, [movies]);
-
   async function searchMovies() {
     try {
       if (search.current) {
@@ -42,7 +38,6 @@ const GeminiSearch = ({ setGemini }) => {
             model: "gemini-2.0-flash",
             contents: query,
           });
-          console.log("ai ", response.text);
           let promiiseMovies = response.text.split(", ").map(async (movie) => {
             try {
               let fetchs = await fetch(
@@ -52,7 +47,6 @@ const GeminiSearch = ({ setGemini }) => {
 
               let res = await fetchs.json();
               let movieData = res.results[0];
-              console.log(movieData);
               return movieData;
             } catch (err) {
               setError({ exists: true, message: err.message });

@@ -42,7 +42,6 @@ export function MovieCategoryList({ name, movies, type }) {
             className={`w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
             onClick={() => {
               findMovieKeyAndSet(movie.id);
-              console.log("mp", movie);
               dispatch(setPlayingMovieDetails(movie));
             }}
             src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}

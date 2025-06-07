@@ -28,7 +28,8 @@ const GeminiSearch = ({ setGemini }) => {
     try {
       if (search.current) {
         const ai = new GoogleGenAI({
-          apiKey: GeminiKey.apiKey,
+          // apiKey: GeminiKey.apiKey,
+          apiKey: process.env.REACT_APP_GEMINIAPIKEY,
         });
 
         async function main() {

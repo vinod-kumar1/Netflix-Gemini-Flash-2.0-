@@ -5,9 +5,18 @@ import {
   signOut,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "./firebaseAuth";
+// import { firebaseConfig } from "./firebaseAuth";
 
-initializeApp(firebaseConfig);
+// initializeApp(firebaseConfig);
+initializeApp({
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
+  measurementId: process.env.measurementId,
+});
 let isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 let isValidPassword =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

@@ -31,7 +31,7 @@ const GeminiSearch = ({ setGemini }) => {
           // apiKey: GeminiKey.apiKey,
           apiKey: process.env.REACT_APP_GEMINIAPIKEY,
         });
-
+        //test
         async function main() {
           let query = `Act as a movie recomendations tool. Give me the movies as per this query: ${search.current.value}. And only give the movie names in comma separated value. Example: Gadar, Kgf, Salaar, etc... . But make sure to respond with only the movie names`;
 

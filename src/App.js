@@ -49,7 +49,7 @@ export default function App() {
         Gemini Search
       </button>
       <div>
-        <div className="z-999 bg-gradient-to-b from-black to-trasparent sticky w-screen flex-col flex items-center md:flex-row md:justify-between px-4 py-4 h-30">
+        <div className="z-999 bg-gradient-to-b from-black to-trasparent sticky w-screen flex-col flex items-center px-4 py-4 h-30">
           <h2 className="bg-gradient-to-r sm:absolute sm:top-5 from-red-700 to-red-500 bg-clip-text text-transparent text-4xl font-serif  hover:underline">
             NETFLIX
           </h2>

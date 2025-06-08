@@ -9,28 +9,28 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import NotFound from "./Components/NotFoundPage";
 
-// let routerConfig = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <LoginPage />,
-//   },
-//   {
-//     path: "browse",
-//     element: <App />,
-//   },
-//   {
-//     path: "*",
-//     element: <NotFound />,
-//   },
-// ]);
-
 let routerConfig = createBrowserRouter([
   {
-    index: true,
     path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "browse",
     element: <App />,
   },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
+
+// let routerConfig = createBrowserRouter([
+//   {
+//     index: true,
+//     path: "/",
+//     element: <App />,
+//   },
+// ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={appStore}>

@@ -16,6 +16,7 @@ export default function LoginPage() {
   let [signIn, setSignIn] = useState(true);
   let dispatch = useDispatch();
   let [click, setClick] = useState(false);
+  let [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     if (signIn) navigate("/");
@@ -93,15 +94,15 @@ export default function LoginPage() {
 
   return (
     <div
-      className={`login-page bg-[url(${tmdbKeys.loginPageBgImg})] bg-cover min-h-screen overflow-hidden flex justify-center`}
+      className={`login-page bg-[url(${tmdbKeys.loginPageBgImg})] bg-cover max-w-screen min-h-screen overflow-hidden flex justify-center`}
     >
-      <h2 className=" text-red-600 text-4xl relative left-2 top-8 underline">
+      <h2 className=" text-red-600 text-4xl absolute left-2 top-8 underline">
         Netflix Gemini
       </h2>
       <form
         name="login-form"
         ref={formData}
-        className="z-1 text-white flex-col bg-black/80 p-4 py-20 h-max relative top-40 w-[600px] items-center flex gap-4 -translate-x-20"
+        className="z-1 text-white flex-col bg-black/80 p-4 py-20 h-max relative top-40 md:w-[600px]  items-center flex gap-4 "
       >
         <h4 className="text-2xl -translate-y-10">
           {(click && (signIn ? "Signing in..." : "Signing Up...")) ||
@@ -112,27 +113,27 @@ export default function LoginPage() {
             type="text"
             name="username"
             placeholder="Enter your name"
-            className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
+            className="bg-gray-500 px-2 rounded-t-md  w-max py-1"
           />
         )}
         <input
           type="email"
           placeholder="email"
           name="email"
-          className="bg-gray-500 px-2 rounded-t-md  w-[60%] py-1"
+          className="bg-gray-500 px-2 rounded-t-md  w-max py-1"
         />
         <input
           name="password"
           type="password"
           placeholder="password"
-          className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
+          className="bg-gray-500 px-2 rounded-b-md py-1 w-max"
         />
         {!signIn && (
           <input
             type="text"
             name="photo"
             placeholder="Your photo link"
-            className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
+            className="bg-gray-500 px-2 rounded-b-md py-1 w-max"
           />
         )}
         {!signIn && (
@@ -140,7 +141,7 @@ export default function LoginPage() {
             name="confirmPassword"
             type="password"
             placeholder="Confirm password"
-            className="bg-gray-500 px-2 rounded-b-md py-1 w-[60%]"
+            className="bg-gray-500 px-2 rounded-b-md py-1 w-max"
           />
         )}
         <button

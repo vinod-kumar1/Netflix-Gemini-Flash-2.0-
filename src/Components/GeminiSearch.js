@@ -4,7 +4,7 @@ import { tmdbKeys } from "../tmdb";
 import { GeminiKey } from "../privateKey";
 import { options } from "./MoviesPage";
 import { useDispatch } from "react-redux";
-import { setPlayingMovieDetails, setPlaying } from "../utils/moviesPagination";
+import { setPlaying } from "../utils/moviesPagination";
 import { fetchMovieKey } from "../utils/fetch";
 
 const GeminiSearch = ({ setGemini }) => {
@@ -97,8 +97,7 @@ const GeminiSearch = ({ setGemini }) => {
                     fetchMovieKey(movie.id)
                       .then((res) => res.json())
                       .then((json) => {
-                        dispatch(setPlayingMovieDetails(movie));
-                        dispatch(setPlaying(json.results[0]));
+                        dispatch(setPlaying({ ...json.results[0], ...movie }));
                         setGemini(false);
                       })
                       .catch(console.log);

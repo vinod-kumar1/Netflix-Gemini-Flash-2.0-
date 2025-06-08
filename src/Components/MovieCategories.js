@@ -4,7 +4,6 @@ import {
   setPlaying,
   setTypePageCount,
   setRequestedPaginationType,
-  setPlayingMovieDetails,
 } from "../utils/moviesPagination";
 import { useDispatch } from "react-redux";
 import { fetchMovieKey } from "../utils/fetch";
@@ -13,11 +12,11 @@ export function MovieCategoryList({ name, movies, type }) {
   let dispatch = useDispatch();
   let [loading, setLoading] = useState(false);
 
-  function findMovieKeyAndSet(id) {
+  function findMovieKeyAndSet(id, movie) {
     fetchMovieKey(id)
       .then((res) => res.json())
       .then((json) => {
-        dispatch(setPlaying(json.results[0]));
+        dispatch(setPlaying({ ...json.results[0], ...movie }));
         window.scroll({
           top: 0,
           behavior: "smooth",
@@ -41,8 +40,7 @@ export function MovieCategoryList({ name, movies, type }) {
             key={movie.id + idx}
             className={`w-40 h-50 flex-shrink-0 rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
             onClick={() => {
-              findMovieKeyAndSet(movie.id);
-              dispatch(setPlayingMovieDetails(movie));
+              findMovieKeyAndSet(movie.id, movie);
             }}
             src={`${tmdbKeys.photo_baseUrl + movie.poster_path}`}
             alt={movie.title}
@@ -62,7 +60,7 @@ export function MovieCategoryList({ name, movies, type }) {
           className="font-mono text-2xl h-50 px-2 bg-red-500 text-white rounded-r-md hover:bg-white hover:text-red-500 cursor-pointer hover:border-[0.5px] mr-2"
         >
           {">"}
-          {loading && <p class="animate-spin text-xl">🌀</p>}
+          {loading && <p className="animate-spin text-xl">🌀</p>}
         </button>
       </div>
     </div>

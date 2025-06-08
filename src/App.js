@@ -103,7 +103,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
+    <div className=" min-h-screen bg-black text-white relative">
       {/* Alert Bar */}
       {alert && (
         <div className="w-full bg-amber-200 text-black p-2 text-sm text-center fixed top-0 z-50">
@@ -111,14 +111,13 @@ export default function App() {
           the rate limit.
         </div>
       )}
-
       {/* Header */}
       <header className="sticky top-0 z-40 w-full bg-gradient-to-b from-black via-transparent px-4 py-3 flex justify-between items-center">
         {/* Left: Logo */}
+
         <h2 className="text-3xl font-serif bg-gradient-to-r from-red-700 to-red-500 bg-clip-text text-transparent hover:underline">
           NETFLIX
         </h2>
-
         {/* Right: user controls + Gemini (on desktop) */}
         <div className="flex items-center gap-2">
           {photo && (
@@ -144,7 +143,6 @@ export default function App() {
           </button>
         </div>
       </header>
-
       {/* Gemini button on mobile (fixed bottom) */}
       <button
         className="sm:hidden fixed bottom-6 right-6 z-50 px-4 py-2 bg-gradient-to-r from-white to-red-900 text-black font-medium rounded-md shadow hover:opacity-90 transition"
@@ -152,11 +150,7 @@ export default function App() {
       >
         Gemini Search
       </button>
-
-      {/* Page content */}
-      <main className="p-4">
-        {Gemini ? <GeminiSearch setGemini={setGemini} /> : <MoviesPage />}
-      </main>
+      <MoviesPage />
     </div>
   );
 }

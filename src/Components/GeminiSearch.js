@@ -28,8 +28,7 @@ const GeminiSearch = ({ setGemini }) => {
     try {
       if (search.current) {
         const ai = new GoogleGenAI({
-          apiKey: "AIzaSyA8_ZzTCkmsQ2Wgu35jEhKcomDh6pQbwZU", // accidentally pused the key. I've disabled it
-          // apiKey: process.env.REACT_APP_GEMINIAPIKEY,
+         apiKey: process.env.REACT_APP_GEMINIAPIKEY,
         });
         //test
         async function main() {

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { removeUser } from "./utils/userDetails";
 // import GeminiSearch from "./Components/GeminiSearch";
 import MoviesPage from "./Components/MoviesPage";
+import GeminiSearch from "./Components/GeminiSearch";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ export default function App() {
 
           {/* Gemini button on sm+ screens */}
           <button
-            className="hidden sm:inline-block px-4 py-2 bg-gradient-to-r from-white to-red-900 text-black font-medium rounded-md hover:opacity-90 transition"
+            className="inline-block cursor-pointer px-4 py-2 bg-gradient-to-r from-white to-red-900 text-black font-medium rounded-md hover:opacity-90 transition"
             onClick={() => setGemini((prev) => !prev)}
           >
             Gemini Search
@@ -74,12 +75,13 @@ export default function App() {
       </header>
       {/* Gemini button on mobile (fixed bottom) */}
       <button
-        className="sm:hidden fixed bottom-6 right-6 z-50 px-4 py-2 bg-gradient-to-r from-white to-red-900 text-black font-medium rounded-md shadow hover:opacity-90 transition"
+        className="cursor-pointer sm:hidden fixed bottom-6 right-6 z-50 px-4 py-2 bg-gradient-to-r from-white to-red-900 text-black font-medium rounded-md shadow hover:opacity-90 transition"
         onClick={() => setGemini((prev) => !prev)}
       >
         Gemini Search
       </button>
-      <MoviesPage />
+
+      {!Gemini ? <MoviesPage /> : <GeminiSearch setGemini={setGemini} />}
     </div>
   );
 }

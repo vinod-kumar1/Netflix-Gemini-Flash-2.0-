@@ -28,8 +28,8 @@ const GeminiSearch = ({ setGemini }) => {
     try {
       if (search.current) {
         const ai = new GoogleGenAI({
-          // apiKey: GeminiKey.apiKey,
-          apiKey: process.env.REACT_APP_GEMINIAPIKEY,
+          apiKey: "AIzaSyA8_ZzTCkmsQ2Wgu35jEhKcomDh6pQbwZU",
+          // apiKey: process.env.REACT_APP_GEMINIAPIKEY,
         });
         //test
         async function main() {
@@ -72,7 +72,7 @@ const GeminiSearch = ({ setGemini }) => {
       <input
         type="text"
         ref={search}
-        className="bg-white h-10 w-100 outline-red-500 outline-[1px] px-2 relative  shadow-[2px_5px_1px_red]"
+        className="bg-white h-10 w-100 outline-red-500 outline-[1px] text-black px-2 relative  shadow-[2px_5px_1px_red]"
         placeholder="Flash 2.0: Hey! What do you want to watch"
       />
       <button
@@ -85,14 +85,14 @@ const GeminiSearch = ({ setGemini }) => {
         Search{" "}
         {loading && <p className="inline-block animate-spin size-xl">🌀</p>}
       </button>
-      {movies.length && (
-        <div className="flex flex-wrap absolute top-100 gap-2 bg-black w-screen px-5">
+      {movies.length > 0 ? (
+        <div className="flex flex-wrap absolute top-100 gap-2 w-screen justify-center">
           {movies.map(
             (movie, idx) =>
               movie.poster_path && (
                 <img
                   key={movie.id + idx}
-                  className={`w-40 h-50 flex-shrink-0 hover:shadow-[2px_2px_2px_red] rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
+                  className={`w-40 h-50 flex-shrink-0 hover:shadow-[2px_2px_2px_red] hover:[mask-image:linear-gradient(to_top, transparent, white)] rounded-sm transition-transform duration-300 hover:scale-110 object-cover hover:cursor-pointer`}
                   onClick={() => {
                     fetchMovieKey(movie.id)
                       .then((res) => res.json())
@@ -108,6 +108,8 @@ const GeminiSearch = ({ setGemini }) => {
               )
           )}
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

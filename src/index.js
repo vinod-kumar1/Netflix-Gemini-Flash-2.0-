@@ -10,12 +10,12 @@ import appStore from "./utils/appStore";
 import NotFound from "./Components/NotFoundPage";
 
 let routerConfig = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   element: <LoginPage />,
+  // },
   {
     path: "/",
-    element: <LoginPage />,
-  },
-  {
-    path: "browse",
     element: <App />,
   },
   {
@@ -39,7 +39,7 @@ root.render(
         <App />
       </div>
     </RouterProvider>
-  </Provider>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
